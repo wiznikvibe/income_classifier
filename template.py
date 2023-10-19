@@ -2,6 +2,7 @@ import os, sys
 from pathlib import Path
 import logging 
 
+logging.basicConfig(level=logging.INFO)
 while True:
     project_name = input("Project Folder Name: ")
     if project_name != "":
@@ -26,6 +27,7 @@ crucks = [
     f"{project_name}/pipeline/training_pipeline.py",
     f"{project_name}/pipeline/prediction_pipeline.py",
     "app.py",
+    "Dockerfile"
     "setup.py"
 ]
 
