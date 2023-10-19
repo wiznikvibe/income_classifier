@@ -27,7 +27,7 @@ crucks = [
     f"{project_name}/pipeline/training_pipeline.py",
     f"{project_name}/pipeline/prediction_pipeline.py",
     "app.py",
-    "Dockerfile"
+    "Dockerfile",
     "setup.py"
 ]
 
