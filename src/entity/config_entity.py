@@ -1,7 +1,7 @@
 import os, sys 
 from src.exception import CustomException
 from src.logger import logging 
-from datetime import datatime 
+from datetime import datetime 
 
 FILE_NAME = "raw_data.csv"
 TRAIN_FILE_NAME = "train.csv"
@@ -13,7 +13,7 @@ MODEL_FILE_NAME = "model.pkl"
 class TrainingPipelineConfig:
 
     def __init__(self):
-        self.artifact_dir = os.path.join(os.getcwd(), "artifact", f"{datatime.now().strftime('%m%d%Y__%H%M%S')}")
+        self.artifact_dir = os.path.join(os.getcwd(), "artifact", f"{datetime.now().strftime('%m%d%Y__%H%M%S')}")
 
 class DataIngestionConfig:
     

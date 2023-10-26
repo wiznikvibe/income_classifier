@@ -2,5 +2,6 @@ numpy
 pandas 
 pymongo
 python-dotenv
+scikit-learn
 
 -e .
