@@ -5,6 +5,7 @@ python-dotenv
 scikit-learn
 pyaml
 dill
+imblearn
 
 
 -e .

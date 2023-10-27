@@ -34,5 +34,14 @@ class DataValidationConfig:
         self.missing_values_threshold: fload = 0.2
         self.base_file_dir = os.path.join("salary.csv")
 
-        
+
+class DataTransformationConfig:
+
+    def __init__(self, training_pipeline_config:TrainingPipelineConfig):
+        self.data_transformation_dir = os.path.join(training_pipeline_config.artifact_dir,"data_transformation")
+        self.target_column = 'salary'
+        self.transform_obj_dir = os.path.join(self.data_transformation_dir,"transformer", TRANSFORMER_OBJ_FILE_NAME)
+        self.transform_train_dir = os.path.join(self.data_transformation_dir,"transformer",TRAIN_FILE_NAME.replace('csv','npz'))
+        self.transform_test_dir = os.path.join(self.data_transformation_dir,"transformer",TEST_FILE_NAME.replace('csv','npz'))
+        self.target_encoder_dir = os.path.join(self.data_transformation_dir,"transformer", TARGET_ENCODER_OBJ_FILE_NAME)
          
