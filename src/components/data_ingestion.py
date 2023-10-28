@@ -12,7 +12,7 @@ class DataIngestion:
     def __init__(self, data_ingestion_config:config_entity.DataIngestionConfig):
         self.data_ingestion_config = data_ingestion_config
         print(f"{'='*20} Data Ingestion {'='*20}")
-        logging.info(f"{'-'*20} Data Ingestion Process Complete {'-'*20}")
+        logging.info(f"{'-'*20} Data Ingestion Process {'-'*20}")
         
 
     def initiate_data_ingestion(self)-> artifact_entity.DataIngestionArtifact:
@@ -48,7 +48,7 @@ class DataIngestion:
                 test_file_dir=self.data_ingestion_config.test_data_dir
             )
 
-            logging.info(f"{'-'*20} Data Ingestion Process Complete {'-'*20}")
+            logging.info(f"{'-'*20} Exiting Data Ingestion {'-'*20}")
 
             return data_ingestion_artifact
 

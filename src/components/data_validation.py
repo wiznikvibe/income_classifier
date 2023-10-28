@@ -13,6 +13,7 @@ class DataValidation:
 
     def __init__(self, data_validation_config:config_entity.DataValidationConfig, data_ingestion_artifact: artifact_entity.DataIngestionArtifact):
         print(f"{'-'*20} Data Validation {'-'*20}")
+        logging.info(f"{'='*20} Data Validation {'='*20}")
         self.data_validation_config = data_validation_config
         self.data_ingestion_artifact = data_ingestion_artifact
         self.validation_error = dict()
@@ -115,6 +116,7 @@ class DataValidation:
             write_yaml_file(file_path=self.data_validation_config.report_file_dir, data=self.validation_error)
             data_validation_artifact = artifact_entity.DataValidationArtifact(report_file_dir=self.data_validation_config.report_file_dir)
 
+            logging.info(f"{'='*20} Exiting Data Validation {'='*20}")
             return data_validation_artifact    
 
 
