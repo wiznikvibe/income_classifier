@@ -7,7 +7,7 @@ from src.entity import config_entity, artifact_entity
 from src import utils 
 from imblearn.combine import SMOTETomek
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import RobustScaler, LabelEncoder, OneHotEncoder, MinMaxScaler
+from sklearn.preprocessing import RobustScaler, LabelEncoder, OneHotEncoder, OrdinalEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 
@@ -22,7 +22,7 @@ class DataTransformation:
 
     
     @classmethod 
-    def get_data_transformer_obj(cls, num_cols, cat_cols)->ColumnTransformer:
+    def get_data_transformer_obj(cls, num_cols, nom_cat_cols, ord_cat_cols, ord_list1, ord_list2)->ColumnTransformer:
         try:
             numerical_pipeline = Pipeline(steps=[
                 ('imputer', SimpleImputer(strategy='mean',fill_value=0)),
@@ -30,12 +30,17 @@ class DataTransformation:
             ])
             categorical_pipeline = Pipeline(steps=[
                 ('imputer', SimpleImputer(strategy='most_frequent')),
-                ('encoder',OneHotEncoder(handle_unknown='ignore', sparse_output=False)),   
+                ('encoder',OneHotEncoder(handle_unknown='ignore', sparse_output=False, drop='first')),   
+            ])
+            ordinal_cat_pipeline = Pipeline(steps=[
+                ('impute', SimpleImputer(strategy='most_frequent')),
+                ('cat_encode', OrdinalEncoder(categories=[ord_list1, ord_list2]))
             ])
 
             preprocessor = ColumnTransformer(transformers=[
                 ("num" , numerical_pipeline, num_cols),
-                ("cat", categorical_pipeline, cat_cols)
+                ("cat", categorical_pipeline, nom_cat_cols),
+                ("nom_cat", ordinal_cat_pipeline, ord_cat_cols)
             ])
 
             return preprocessor            
@@ -64,10 +69,24 @@ class DataTransformation:
 
 
             logging.info("Passing the Input Data into Transformer")
-            numerical_features = [col for col in input_train_df.columns if input_train_df[col].dtype == 'int']
-            categorical_features = [col for col in input_train_df.columns if input_train_df[col] not in numerical_features]
 
-            transformation_pipeline = DataTransformation.get_data_transformer_obj(num_cols=numerical_features,cat_cols=categorical_features)
+            ordinal_cat_cols = ['workclass', 'education']
+            numerical_features = [col for col in input_train_df.columns if input_train_df[col].dtype == 'int']
+            nom_cat_features = [col for col in input_train_df.columns if col not in numerical_features and col not in ordinal_cat_cols]
+            
+            
+            workclass_cat = [
+                'State-gov', 'Self-emp-not-inc', 'Private', 'Federal-gov', 'Local-gov',
+                                'Self-emp-inc', 'Without-pay', 'Never-worked'
+            ]
+
+            education_cat = [
+                'Doctorate', 'Masters', 'Bachelors', 'HS-grad',  'Some-college', 'Assoc-acdm',
+                'Assoc-voc',  'Prof-school', '12th', '10th', '11th', '9th', '7th-8th',  '5th-6th',
+                '1st-4th', 'Preschool'
+            ]
+
+            transformation_pipeline = DataTransformation.get_data_transformer_obj(num_cols=numerical_features,nom_cat_cols=nom_cat_features, ord_cat_cols=ordinal_cat_cols, ord_list1=workclass_cat, ord_list2=education_cat)
             transformation_pipeline.fit(input_train_df)
             input_train_arr = transformation_pipeline.transform(input_train_df)
             input_test_arr = transformation_pipeline.transform(input_test_df)
@@ -79,9 +98,9 @@ class DataTransformation:
             train_input_arr, target_train_arr = smt.fit_resample(input_train_arr, train_target_arr)
             logging.info(f"After Resampling - Train Data: {train_input_arr.shape} || Target Data: {target_train_arr.shape}")
 
-            logging.info(f"Before Resampling - Train Data: {input_test_arr.shape}, Target Data: {test_target_arr.shape}")
+            logging.info(f"Before Resampling - Test Data: {input_test_arr.shape}, Target Data: {test_target_arr.shape}")
             test_input_arr, target_test_arr = smt.fit_resample(input_test_arr, test_target_arr)
-            logging.info(f"After Resampling - Train Data: {test_input_arr.shape} || Test Data: {target_test_arr.shape}")
+            logging.info(f"After Resampling - Test Data: {test_input_arr.shape} || Test Data: {target_test_arr.shape}")
 
             train_arr = np.c_[train_input_arr, target_train_arr]
             test_arr = np.c_[test_input_arr, target_test_arr]

@@ -1,4 +1,5 @@
 import yaml
+import dill
 import os, sys 
 import pandas as pd 
 import numpy as np 
