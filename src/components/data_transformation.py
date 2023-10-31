@@ -7,7 +7,7 @@ from src.entity import config_entity, artifact_entity
 from src import utils 
 from imblearn.combine import SMOTETomek
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import RobustScaler, LabelEncoder, OneHotEncoder, OrdinalEncoder
+from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder, OrdinalEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 
@@ -22,28 +22,33 @@ class DataTransformation:
 
     
     @classmethod 
-    def get_data_transformer_obj(cls, num_cols, nom_cat_cols, ord_cat_cols, ord_list1, ord_list2)->ColumnTransformer:
+    def get_data_transformer_obj(cls, num_cols, ordinal_cat_cols, nom_cat_cols, workclass_cat, education_cat)->ColumnTransformer:
         try:
             numerical_pipeline = Pipeline(steps=[
-                ('imputer', SimpleImputer(strategy='mean',fill_value=0)),
-                ('scaler', RobustScaler())
+                ('impute', SimpleImputer(strategy='mean')),
+                ('scale', StandardScaler())
             ])
-            categorical_pipeline = Pipeline(steps=[
-                ('imputer', SimpleImputer(strategy='most_frequent')),
-                ('encoder',OneHotEncoder(handle_unknown='ignore', sparse_output=False, drop='first')),   
-            ])
+
             ordinal_cat_pipeline = Pipeline(steps=[
                 ('impute', SimpleImputer(strategy='most_frequent')),
-                ('cat_encode', OrdinalEncoder(categories=[ord_list1, ord_list2]))
+                ('encode', OrdinalEncoder(categories=[workclass_cat, education_cat])),
+                ('scale', StandardScaler())
+            ])
+
+            nominal_cat_pipeline = Pipeline(steps=[
+                ('impute', SimpleImputer(strategy='most_frequent')),
+                ('encode', OneHotEncoder(handle_unknown='ignore', sparse=False, drop='first')),
+                ('scaler', StandardScaler())
             ])
 
             preprocessor = ColumnTransformer(transformers=[
-                ("num" , numerical_pipeline, num_cols),
-                ("cat", categorical_pipeline, nom_cat_cols),
-                ("nom_cat", ordinal_cat_pipeline, ord_cat_cols)
+                ('numerical', numerical_pipeline, num_cols),
+                ('ordinal_enc', ordinal_cat_pipeline, ordinal_cat_cols),
+                ('nominal_enc', nominal_cat_pipeline, nom_cat_cols)
             ])
 
-            return preprocessor            
+            return preprocessor
+                     
         except Exception as e:
             raise CustomException(e, sys)
 
@@ -53,12 +58,17 @@ class DataTransformation:
             logging.info("Reading the Training and Testing Data")
             train_df = pd.read_csv(self.data_ingestion_artifact.train_file_dir)
             test_df = pd.read_csv(self.data_ingestion_artifact.test_file_dir)
+            logging.info(f"Training Data Size: {train_df.shape} || Testing Data Size: {test_df.shape}")    
+
 
             logging.info("Segregating the Input Features and Output Features")
             input_train_df = train_df.drop(self.data_transformation_config.target_column, axis=1)
+            logging.info(input_train_df.shape)
+            logging.info(f"Shape After Dropping the Target Value")
             input_test_df = test_df.drop(self.data_transformation_config.target_column, axis=1)
             
             train_target = train_df[self.data_transformation_config.target_column]
+            logging.info(train_target[:5])
             test_target = test_df[self.data_transformation_config.target_column] 
 
             logging.info("Applying Encoder on the Target Feature")
@@ -66,13 +76,16 @@ class DataTransformation:
             label.fit(train_target)
             train_target_arr = label.transform(train_target)
             test_target_arr = label.transform(test_target)
+            logging.info(train_target[0])
 
 
             logging.info("Passing the Input Data into Transformer")
 
             ordinal_cat_cols = ['workclass', 'education']
-            numerical_features = [col for col in input_train_df.columns if input_train_df[col].dtype == 'int']
+            numerical_features = input_train_df.select_dtypes(exclude='object').columns
             nom_cat_features = [col for col in input_train_df.columns if col not in numerical_features and col not in ordinal_cat_cols]
+            logging.info(f"Numerical Features: {numerical_features} | Nominal Features {nom_cat_features} | Ordinal Features: {ordinal_cat_cols}")
+            logging.info(train_df)
             
             
             workclass_cat = [
@@ -86,13 +99,14 @@ class DataTransformation:
                 '1st-4th', 'Preschool'
             ]
 
-            transformation_pipeline = DataTransformation.get_data_transformer_obj(num_cols=numerical_features,nom_cat_cols=nom_cat_features, ord_cat_cols=ordinal_cat_cols, ord_list1=workclass_cat, ord_list2=education_cat)
+            transformation_pipeline = DataTransformation.get_data_transformer_obj(num_cols=numerical_features, ordinal_cat_cols=ordinal_cat_cols, nom_cat_cols=nom_cat_features, workclass_cat=workclass_cat, education_cat=education_cat)
             transformation_pipeline.fit(input_train_df)
             input_train_arr = transformation_pipeline.transform(input_train_df)
             input_test_arr = transformation_pipeline.transform(input_test_df)
+            logging.info(f"Shape of Data before Sampling: {input_train_arr.shape}")
             
             logging.info("Resampling the Dataset to generate samples for Minority class")
-            smt = SMOTETomek(sampling_strategy='minority', random_state=42)
+            smt = SMOTETomek(sampling_strategy='minority', random_state=10, n_jobs=-1)
             
             logging.info(f"Before Resampling - Train Data: {input_train_arr.shape}, Target Data: {train_target_arr.shape}")
             train_input_arr, target_train_arr = smt.fit_resample(input_train_arr, train_target_arr)
@@ -104,7 +118,7 @@ class DataTransformation:
 
             train_arr = np.c_[train_input_arr, target_train_arr]
             test_arr = np.c_[test_input_arr, target_test_arr]
-
+            logging.info(f"Dataset after Joining with the Transformed Output: {train_arr.shape}")
             logging.info("Saving the Processed Data")
             utils.save_numpy_data(file_dir=self.data_transformation_config.transform_train_dir, array=train_arr)
             utils.save_numpy_data(file_dir=self.data_transformation_config.transform_test_dir, array=test_arr)

@@ -43,7 +43,7 @@ def save_numpy_data(file_dir: str, array: np.array):
         os.makedirs(os.path.dirname(file_dir), exist_ok=True)
         with open(file_dir, "wb") as file_obj:
             np.save(file_obj, array)
-            file_obj.close()
+            
     except Exception as e:
         raise CustomException(e, sys)
 
@@ -52,8 +52,8 @@ def save_object(file_dir: str, obj: object)-> None:
         logging.info("Data is Passed to Utils function for Saving the processed data")
         os.makedirs(os.path.dirname(file_dir), exist_ok=True)
         with open(file_dir, "wb") as file_obj:
-            dill.dump(obj, file_dir)
-            file_dir.close()
+            dill.dump(obj, file_obj)
+            
             
     except Exception as e:
         raise CustomException(e, sys)

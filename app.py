@@ -1,3 +1,5 @@
+import warnings
+warnings.filterwarnings("ignore")
 from src.entity import config_entity, artifact_entity
 from src.components.data_ingestion import DataIngestion
 from src.components.data_validation import DataValidation
