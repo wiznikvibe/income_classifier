@@ -6,6 +6,7 @@ scikit-learn
 pyaml
 dill
 imblearn
+catboost
 
 
 -e .

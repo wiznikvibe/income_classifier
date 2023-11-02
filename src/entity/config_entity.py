@@ -45,3 +45,11 @@ class DataTransformationConfig:
         self.transform_test_dir = os.path.join(self.data_transformation_dir,"transformer",TEST_FILE_NAME.replace('csv','npz'))
         self.target_encoder_dir = os.path.join(self.data_transformation_dir,"transformer", TARGET_ENCODER_OBJ_FILE_NAME)
          
+
+class ModelTrainerConfig:
+    
+    def __init__(self, training_pipeline_config:TrainingPipelineConfig):
+        self.model_trainer_dir = os.path.join(training_pipeline_config.artifact_dir, "model_trainer")
+        self.model_dir = os.path.join(self.model_trainer_dir, 'model', MODEL_FILE_NAME)
+        self.expected_score = 0.7 
+        self.overfitting_thresh = 0.1 

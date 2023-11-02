@@ -16,3 +16,10 @@ class DataTransformationArtifacts:
     transform_train_dir: str
     transform_test_dir: str
     target_encoder_dir: str
+
+@dataclass 
+class ModelTrainerArtifact:
+    model_dir: str 
+    f1_train_score: float 
+    f1_test_score: float 
+    

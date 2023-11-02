@@ -47,6 +47,7 @@ def save_numpy_data(file_dir: str, array: np.array):
     except Exception as e:
         raise CustomException(e, sys)
 
+
 def save_object(file_dir: str, obj: object)-> None:
     try:
         logging.info("Data is Passed to Utils function for Saving the processed data")
@@ -55,5 +56,22 @@ def save_object(file_dir: str, obj: object)-> None:
             dill.dump(obj, file_obj)
             
             
+    except Exception as e:
+        raise CustomException(e, sys)
+
+
+def load_numpy_obj(file_dir: str)-> np.array:
+    try:
+        with open(file_dir, "rb") as file_obj:
+            return np.load(file_obj)
+    except Exception as e:
+        raise CustomException(e, sys)
+
+def load_object(file_dir)-> object:
+    try: 
+        if not os.path.exists(file_dir):
+            logging.info(Exception(f"File: {file_dir} does not exist"))
+        with open(file_dir, "rb") as file_obj:
+            return dill.load(file_obj)
     except Exception as e:
         raise CustomException(e, sys)
