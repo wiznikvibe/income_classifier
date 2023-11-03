@@ -8,6 +8,7 @@ from sklearn.metrics import f1_score
 import pandas as pd 
 import numpy as np 
 from catboost import CatBoostClassifier
+from xgboost import XGBClassifier
 
 
 class ModelTrainer: 
@@ -23,7 +24,7 @@ class ModelTrainer:
 
     def train_model(self, X, y):
         try:
-            clf = CatBoostClassifier()
+            clf = XGBClassifier()
             clf.fit(X, y)
             return clf 
         except Exception as e:
