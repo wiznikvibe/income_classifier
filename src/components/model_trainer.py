@@ -24,7 +24,7 @@ class ModelTrainer:
 
     def train_model(self, X, y):
         try:
-            clf = XGBClassifier()
+            clf = CatBoostClassifier()
             clf.fit(X, y)
             return clf 
         except Exception as e:
