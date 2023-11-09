@@ -34,7 +34,7 @@ class ModelResolver:
 
     def get_latest_model_path(self):
         try:
-            latest_dir_path = get_latest_dir_path()
+            latest_dir_path = self.get_latest_dir_path()
             if latest_dir_path is None:
                 raise Exception(f"Model is not Available")
             return os.path.join(latest_dir_path, self.model_dir_name, MODEL_FILE_NAME)
@@ -46,7 +46,7 @@ class ModelResolver:
 
     def get_latest_transformer_path(self):
         try:
-            latest_dir_path = get_latest_dir_path() 
+            latest_dir_path = self.get_latest_dir_path() 
             if latest_dir_path is None:
                 raise Exception("Transformer is Not Created")
             return os.path.join(latest_dir_path, self.transformer_dir_name, TRANSFORMER_OBJ_FILE_NAME)
@@ -55,14 +55,14 @@ class ModelResolver:
 
     def get_latest_target_encoder_path(self):
         try:
-            latest_dir_path = get_latest_dir_path() 
+            latest_dir_path = self.get_latest_dir_path() 
             if latest_dir_path is None:
                 raise Exception("Transformer is Not Created")
             return os.path.join(latest_dir_path, self.target_encoder_dir_name, TARGET_ENCODER_OBJ_FILE_NAME)
         except Exception as e:
             raise e 
 
-    def get_latest_saved_dir_path(self):
+    def get_latest_save_dir_path(self):
         try:
             latest_dir_path = self.get_latest_dir_path()
             if latest_dir_path is None:
@@ -83,14 +83,14 @@ class ModelResolver:
     def get_latest_save_transformer_path(self):
         try:
             latest_dir = self.get_latest_save_dir_path()
-            return os.path.join(latest_dir,self.transformer_dir_name,TRANSFORMER_OBJECT_FILE_NAME)
+            return os.path.join(latest_dir,self.transformer_dir_name,TRANSFORMER_OBJ_FILE_NAME)
         except Exception as e:
             raise e
 
     def get_latest_save_target_encoder_path(self):
         try:
             latest_dir = self.get_latest_save_dir_path()
-            return os.path.join(latest_dir,self.target_encoder_dir_name,TARGET_ENCODER_OBJECT_FILE_NAME)
+            return os.path.join(latest_dir,self.target_encoder_dir_name,TARGET_ENCODER_OBJ_FILE_NAME)
         except Exception as e:
             raise e
 

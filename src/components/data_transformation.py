@@ -125,7 +125,7 @@ class DataTransformation:
 
             logging.info("Saving the Preprocessor Object and Target Encoder")
             utils.save_object(file_dir=self.data_transformation_config.transform_obj_dir, obj=transformation_pipeline)
-            utils.save_object(file_dir=self.data_transformation_config.transform_obj_dir, obj=label)
+            utils.save_object(file_dir=self.data_transformation_config.target_encoder_dir, obj=label)
 
             data_transformation_artifact = artifact_entity.DataTransformationArtifacts(
                 transform_obj_dir=self.data_transformation_config.transform_obj_dir,

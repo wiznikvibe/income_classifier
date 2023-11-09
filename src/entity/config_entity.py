@@ -53,3 +53,17 @@ class ModelTrainerConfig:
         self.model_dir = os.path.join(self.model_trainer_dir, 'model', MODEL_FILE_NAME)
         self.expected_score = 0.7 
         self.overfitting_thresh = 0.1 
+
+class ModelEvaluationConfig:
+    def __init__(self, training_pipeline_config: TrainingPipelineConfig):
+        self.change_threshold = 0.01
+        self.target_column = 'salary'
+
+class ModelPusherConfig:
+    def __init__(self, training_pipeline_config:TrainingPipelineConfig):
+        self.model_pusher_dir = os.path.join(training_pipeline_config.artifact_dir, 'model_pusher')
+        self.saved_model_dir = os.path.join("saved_models")
+        self.pusher_model_dir = os.path.join(self.model_pusher_dir, self.saved_model_dir)
+        self.pusher_model_path = os.path.join(self.model_pusher_dir, MODEL_FILE_NAME)
+        self.pusher_transformer_path = os.path.join(self.pusher_model_dir, TRANSFORMER_OBJ_FILE_NAME)
+        self.pusher_target_enc_path = os.path.join(self.pusher_model_dir, TARGET_ENCODER_OBJ_FILE_NAME) 
