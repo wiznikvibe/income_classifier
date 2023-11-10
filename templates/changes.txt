@@ -1,0 +1,31 @@
+<label for="marital_status">Marital Status:</label>
+<select name="marital_status" required>
+    <option value="married">Married</option>
+    <option value="single">Single</option>
+    <option value="divorced">Divorced</option>
+    <!-- Add more options as needed -->
+</select><br>
+
+<label for="occupation">Occupation:</label>
+<select name="occupation" required>
+    <option value="manager">Manager</option>
+    <option value="engineer">Engineer</option>
+    <option value="teacher">Teacher</option>
+    <!-- Add more options as needed -->
+</select><br>
+
+<label for="relationship">Relationship:</label>
+<select name="relationship" required>
+    <option value="spouse">Spouse</option>
+    <option value="parent">Parent</option>
+    <option value="child">Child</option>
+    <!-- Add more options as needed -->
+</select><br>
+
+<label for="race">Race:</label>
+<select name="race" required>
+    <option value="caucasian">Caucasian</option>
+    <option value="african_american">African American</option>
+    <option value="asian">Asian</option>
+    <!-- Add more options as needed -->
+</select><br>

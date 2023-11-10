@@ -9,6 +9,8 @@ import pandas as pd
 import numpy as np 
 from catboost import CatBoostClassifier
 from xgboost import XGBClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, GradientBoostingClassifier
+
 
 
 class ModelTrainer: 
@@ -24,7 +26,8 @@ class ModelTrainer:
 
     def train_model(self, X, y):
         try:
-            clf = CatBoostClassifier()
+            clf = CatBoostClassifier(iterations=1000, learning_rate=0.1, depth=8, l2_leaf_reg=3)
+            # clf = XGBClassifier(n_estimators=200,learning_rate=0.1,max_depth=3,reg_lambda=1)
             clf.fit(X, y)
             return clf 
         except Exception as e:
@@ -43,6 +46,7 @@ class ModelTrainer:
             X_test, y_test = test_df[:,:-1], test_df[:,-1]
 
             model = self.train_model(X=X_train, y=y_train)
+            logging.info(f"Model is trained on these features: {model.feature_names_}")
             
             logging.info("Computing th F1_score for Train Data")
             y_train_pred = model.predict(X_train)

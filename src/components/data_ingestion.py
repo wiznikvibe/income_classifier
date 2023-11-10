@@ -27,6 +27,7 @@ class DataIngestion:
                 data[col] = data[col].apply(lambda x: x.strip())
 
             data.replace(to_replace=['na', '?'], value=np.NAN, inplace=True)
+            # data.drop(['capital-loss','capital-gain','fnlwgt'], axis=1, inplace=True)
             logging.info("Storing the raw files in the Feature Directory")
             
             feature_store_path = os.path.dirname(self.data_ingestion_config.feature_store_dir)

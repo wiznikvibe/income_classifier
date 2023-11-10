@@ -7,7 +7,7 @@ from src.entity import config_entity, artifact_entity
 from src import utils 
 from imblearn.combine import SMOTETomek
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder, OrdinalEncoder
+from sklearn.preprocessing import StandardScaler, RobustScaler, LabelEncoder, OneHotEncoder, OrdinalEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 
@@ -26,19 +26,19 @@ class DataTransformation:
         try:
             numerical_pipeline = Pipeline(steps=[
                 ('impute', SimpleImputer(strategy='mean')),
-                ('scale', StandardScaler())
+                ('scale', RobustScaler())
             ])
 
             ordinal_cat_pipeline = Pipeline(steps=[
                 ('impute', SimpleImputer(strategy='most_frequent')),
-                ('encode', OrdinalEncoder(categories=[workclass_cat, education_cat])),
-                ('scale', StandardScaler())
+                ('encode', OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1,categories=[workclass_cat, education_cat])),
+                ('scale', RobustScaler())
             ])
 
             nominal_cat_pipeline = Pipeline(steps=[
                 ('impute', SimpleImputer(strategy='most_frequent')),
                 ('encode', OneHotEncoder(handle_unknown='ignore', sparse=False)),
-                ('scaler', StandardScaler())
+                ('scaler', RobustScaler())
             ])
 
             preprocessor = ColumnTransformer(transformers=[
@@ -58,15 +58,19 @@ class DataTransformation:
             logging.info("Reading the Training and Testing Data")
             train_df = pd.read_csv(self.data_ingestion_artifact.train_file_dir)
             test_df = pd.read_csv(self.data_ingestion_artifact.test_file_dir)
-            logging.info(f"Training Data Size: {train_df.shape} || Testing Data Size: {test_df.shape}")    
+            logging.info(f"Training Data Columns: {train_df.columns} || Testing Data Size: {test_df.shape}")    
 
 
             logging.info("Segregating the Input Features and Output Features")
             input_train_df = train_df.drop(self.data_transformation_config.target_column, axis=1)
+            # input_train_df.drop('fnlwgt', axis=1, inplace=True)
+            # input_train_df.drop(['capital-loss','capital-gain','fnlwgt'], axis=1, inplace=True)
             logging.info(input_train_df.shape)
             logging.info(f"Shape After Dropping the Target Value")
             input_test_df = test_df.drop(self.data_transformation_config.target_column, axis=1)
-            
+            # input_test_df.drop('fnlwgt', axis=1, inplace=True)
+            # input_test_df.drop(['capital-loss','capital-gain','fnlwgt'], axis=1, inplace=True)
+
             train_target = train_df[self.data_transformation_config.target_column]
             logging.info(train_target[:5])
             test_target = test_df[self.data_transformation_config.target_column] 
@@ -85,7 +89,7 @@ class DataTransformation:
             numerical_features = input_train_df.select_dtypes(exclude='object').columns
             nom_cat_features = [col for col in input_train_df.columns if col not in numerical_features and col not in ordinal_cat_cols]
             logging.info(f"Numerical Features: {numerical_features} | Nominal Features {nom_cat_features} | Ordinal Features: {ordinal_cat_cols}")
-            logging.info(train_df)
+            logging.info(train_df.head)
             
             
             workclass_cat = [
@@ -119,7 +123,7 @@ class DataTransformation:
             train_arr = np.c_[train_input_arr, target_train_arr]
             test_arr = np.c_[test_input_arr, target_test_arr]
             logging.info(f"Dataset after Joining with the Transformed Output: {train_arr.shape}")
-            logging.info("Saving the Processed Data")
+            # logging.info(f"Saving the Processed Data: {pd.DataFrame(data=train_input_arr, columns=transformation_pipeline.feature_names_in_).head()}")
             utils.save_numpy_data(file_dir=self.data_transformation_config.transform_train_dir, array=train_arr)
             utils.save_numpy_data(file_dir=self.data_transformation_config.transform_test_dir, array=test_arr)
 

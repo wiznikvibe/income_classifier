@@ -20,7 +20,7 @@ class ModelEvaluation:
 
     def initiate_model_evaluation(self)-> artifact_entity.ModelEvaluationArtifact:
         try:
-            logging.info("Model Evaluation Initiated")
+            logging.info(f"{'='*20}Model Evaluation Initiated{'='*20}")
             latest_dir_path = self.model_resolver.get_latest_dir_path()
             
             if latest_dir_path is None:
@@ -47,6 +47,7 @@ class ModelEvaluation:
 
             logging.info("Accuracy Test: Model in Saved Model")
             input_feature_names = list(transformer.feature_names_in_)
+            logging.info(f"FEATURES:{input_feature_names}")
             input_arr = transformer.transform(test_df[input_feature_names])
             y_pred = model.predict(input_arr)
             saved_model_score = f1_score(y_true=y_true, y_pred=y_pred)
@@ -54,6 +55,8 @@ class ModelEvaluation:
 
             logging.info("Accuracy Test for Model in Testnet")
             input_feature_names = list(current_transformer.feature_names_in_)
+            logging.info(f"Current FEATURES:{input_feature_names}")
+
             y_true = current_target_encoder.transform(target_df)
             input_arr = current_transformer.transform(test_df[input_feature_names])
             y_pred = current_model.predict(input_arr)
