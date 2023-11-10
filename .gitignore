@@ -161,7 +161,7 @@ cython_debug/
 #.idea/
 artifact/
 salary.csv
-notebook/catboost_info/catboost_training.json
+notebook/catboost_info/
 notebook/catboost_info/tmp/cat_feature_index.ff56fc8c-a2a3e15-eded385d-1e4de522.tmp
 notebook/catboost_info/tmp/cat_feature_index.d88d8c37-177fda3a-c4ec52ae-10e1be0c.tmp
 notebook/catboost_info/tmp/cat_feature_index.6612015b-455e17cb-70ef299a-4eb0d14c.tmp
@@ -178,5 +178,5 @@ notebook/catboost_info/learn/events.out.tfevents
 notebook/catboost_info/time_left.tsv
 notebook/catboost_info/learn_error.tsv
 notebook/catboost_info/catboost_training.json
-catboost_info/catboost_training.json
+catboost_info/
 saved_models

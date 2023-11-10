@@ -30,7 +30,7 @@ class ModelEvaluation:
             
             logging.info("Loading Model, Transformer and Target_Encoder for the Saved Model.")
             model_path = self.model_resolver.get_latest_model_path()
-            transformer_path = self.model_resolver.get_latest_save_transformer_path()
+            transformer_path = self.model_resolver.get_latest_transformer_path()
             target_enc_path = self.model_resolver.get_latest_target_encoder_path()
 
             model = load_object(file_dir=model_path)
@@ -46,14 +46,14 @@ class ModelEvaluation:
             y_true = target_encoder.transform(target_df)
 
             logging.info("Accuracy Test: Model in Saved Model")
-            input_feature_names = list(transformer.features_names_in_)
+            input_feature_names = list(transformer.feature_names_in_)
             input_arr = transformer.transform(test_df[input_feature_names])
             y_pred = model.predict(input_arr)
             saved_model_score = f1_score(y_true=y_true, y_pred=y_pred)
             logging.info(f"Accuracy Score for Saved Model: {saved_model_score}")
 
             logging.info("Accuracy Test for Model in Testnet")
-            input_feature_names = list(current_transformer.features_names_in_)
+            input_feature_names = list(current_transformer.feature_names_in_)
             y_true = current_target_encoder.transform(target_df)
             input_arr = current_transformer.transform(test_df[input_feature_names])
             y_pred = current_model.predict(input_arr)
