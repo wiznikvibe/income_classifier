@@ -5,6 +5,64 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Income Prediction</title>
+    
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f0f0f0;
+                color: #333;
+                margin: 20px;
+            }
+    
+            h1 {
+                text-align: center;
+                color: #007bff;
+            }
+    
+            form {
+                max-width: 400px;
+                margin: auto;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+    
+            label {
+                display: block;
+                margin-bottom: 8px;
+                color: #555;
+            }
+    
+            select,
+            input {
+                width: 100%;
+                padding: 8px;
+                margin-bottom: 16px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+    
+            button {
+                background-color: #007bff;
+                color: #fff;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                width: 100%;
+            }
+    
+            button:hover {
+                background-color: #0056b3;
+            }
+        </style>
     <title>Income Prediction</title>
 </head>
 
@@ -18,25 +76,96 @@
         <input type="number" name="fnlwgt" required><br>
 
         <label for="workclass">Workclass:</label>
-        <input type="text" name="workclass" required><br>
+        <select name="marital_status" required>
+            <option>State-Gov</option>
+            <option>Self-Emp-not-Inc</option>
+            <option>Private</option>
+            <option>Federal-Gov</option>
+            <option>Local-Gov</option>
+            <option>Self-Emp-Inc</option>
+            <option>Without-Pay</option>
+            <option>Never-Worked</option>
+        </select><br>
 
         <label for="education_num">Education Num:</label>
-        <input type="number" name="education_num" required><br>
+        <select name="education_num" required>
+            <option value="1">Pre-School</option>
+            <option value="2">1st-4th</option>
+            <option value="3">5th-6th</option>
+            <option value="4">7th-8th</option>
+            <option value="5">9th</option>
+            <option value="6">10th</option>
+            <option value="7">11th</option>
+            <option value="8">12th</option>
+            <option value="9">HS-Grad</option>
+            <option value="10">Some College</option>
+            <option value="11">Assoc-Voc</option>
+            <option value="12">Assoc-Acd</option>
+            <option value="13">Bachelors</option>
+            <option value="14">Masters</option>
+        </select><br>
+
+        <label for="education">Education Num:</label>
+        <select name="education" required>
+            <option value="Pre-School">1</option>
+            <option value="1st-4th">2</option>
+            <option value="5th-6th">3</option>
+            <option value="7th-8th">4</option>
+            <option value="9th">5</option>
+            <option value="10th">6</option>
+            <option value="11th">7</option>
+            <option value="12th">8</option>
+            <option value="HS-Grad">9</option>
+            <option value="Some College">10</option>
+            <option value="Assoc-Voc">11</option>
+            <option value="Assoc-Acd">12</option>
+            <option value="Bachelors">13</option>
+            <option value="Masters">14</option>
+        </select><br>
+
+        
 
         <label for="marital_status">Marital Status:</label>
-        <input type="text" name="marital_status" required><br>
+        <select name="marital_status" required>
+            <option>Never-married</option>
+            <option>Married-civ-spouse</option>
+            <option>Divorced</option>
+            <option>Married-Spouse-Absent</option>
+            <option>Separated</option>
+            <option>Married-Af-Spouse</option>
+            <option>Widowed</option>
+            <!-- Add more options as needed -->
+        </select><br>
 
         <label for="occupation">Occupation:</label>
         <input type="text" name="occupation" required><br>
 
         <label for="relationship">Relationship:</label>
-        <input type="text" name="relationship" required><br>
+        <select id="relationship" name="relationship">
+            <option>Not-in-family</option>
+            <option>Husband</option>
+            <option>Wife</option>
+            <option>Own-child</option>
+            <option>Unmarried</option>
+            <option>Other-relative</option>
+        </select><br>
 
         <label for="race">Race:</label>
-        <input type="text" name="race" required><br>
+        
+        <select id="race" name="race">
+            <option>White</option>
+            <option>Black</option>
+            <option>Asian-Pac-Islander</option>
+            <option>Amer-Indian-Eskimo</option>
+            <option>Other</option>
+        </select><br>
 
         <label for="sex">Sex:</label>
-        <input type="text" name="sex" required><br>
+        
+        <select id="sex" name="sex">
+            <option>Female</option>
+            <option>Male</option>
+        </select><br>
 
         <label for="capital_gain">Capital Gain:</label>
         <input type="number" name="capital_gain" required><br>
@@ -48,10 +177,53 @@
         <input type="number" name="hours_per_week" required><br>
 
         <label for="native_country">Native Country:</label>
-        <input type="text" name="native_country" required><br>
+        
+        <select id="native_country" name="native_country">
+            <option >United-States</option>
+            <option>Cuba</option>
+            <option >Jamaica</option>
+            <option >India</option>
+            <option >Mexico</option>
+            <option >South</option>
+            <option >Puerto-Rico</option>
+            <option >Honduras</option>
+            <option>England</option>
+            <option>Canada</option>
+            <option >Germany</option>
+            <option >Iran</option>
+            <option >Philippines</option>
+            <option >Italy</option>
+            <option >Poland</option>
+            <option>Columbia</option>
+            <option>Cambodia</option>
+            <option >Thailand</option>
+            <option>Ecuador</option>
+            <option >Laos</option>
+            <option >Taiwan</option>
+            <option >Haiti</option>
+            <option >Portugal</option>
+            <option>Dominican-Republic</option>
+            <option>El-Salvador</option>
+            <option>France</option>
+            <option >Guatemala</option>
+            <option>China</option>
+            <option >Japan</option>
+            <option >Yugoslavia</option>
+            <option >Peru</option>
+            <option >Outlying-US(Guam-USVI-etc)</option>
+            <option >Scotland</option>
+            <option >Trinadad-Tobago</option>
+            <option >Greece</option>
+            <option >Nicaragua</option>
+            <option >Vietnam</option>
+            <option >Hong</option>
+            <option >Ireland</option>
+            <option >Hungary</option>
+            <option >Holand-Netherlands</option>
+        </select><br>
 
         <button type="submit">Predict</button>
-    </form>
+    
 </body>
 
 </html>

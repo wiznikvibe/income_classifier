@@ -17,7 +17,7 @@ class PredictionPipeline:
         model_path = self.model_resolver.get_latest_model_path()
         
         preprocessor = load_object(file_dir=preprocessor_path)
-        print(preprocessor.feature_names_in_)
+        # print(preprocessor.feature_names_in_)
         model = load_object(file_dir=model_path)
 
         scaled = preprocessor.transform(features)

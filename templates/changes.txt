@@ -1,31 +1,17 @@
-<label for="marital_status">Marital Status:</label>
-<select name="marital_status" required>
-    <option value="married">Married</option>
-    <option value="single">Single</option>
-    <option value="divorced">Divorced</option>
-    <!-- Add more options as needed -->
-</select><br>
-
-<label for="occupation">Occupation:</label>
-<select name="occupation" required>
-    <option value="manager">Manager</option>
-    <option value="engineer">Engineer</option>
-    <option value="teacher">Teacher</option>
-    <!-- Add more options as needed -->
-</select><br>
-
-<label for="relationship">Relationship:</label>
-<select name="relationship" required>
-    <option value="spouse">Spouse</option>
-    <option value="parent">Parent</option>
-    <option value="child">Child</option>
-    <!-- Add more options as needed -->
-</select><br>
-
-<label for="race">Race:</label>
-<select name="race" required>
-    <option value="caucasian">Caucasian</option>
-    <option value="african_american">African American</option>
-    <option value="asian">Asian</option>
-    <!-- Add more options as needed -->
-</select><br>
+<label for="education_num">Education Num:</label>
+        <select name="'Education" required>
+            <option value="Pre-School">1</option>
+            <option value="1st-4th">2</option>
+            <option value="5th-6th">3</option>
+            <option value="7th-8th">4</option>
+            <option value="9th">5</option>
+            <option value="10th">6</option>
+            <option value="11th">7</option>
+            <option value="12th">8</option>
+            <option value="HS-Grad">9</option>
+            <option value="Some College">10</option>
+            <option value="Assoc-Voc">11</option>
+            <option value="Assoc-Acd">12</option>
+            <option value="Bachelors">13</option>
+            <option value="Masters">14</option>
+        </select><br>
