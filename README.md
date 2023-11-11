@@ -4,6 +4,9 @@
 
 This project is designed to build a machine learning model for income classification. The primary goal is to predict whether an individual's income exceeds a certain threshold based on various features like age, education, occupation, etc.
 
+![image](https://github.com/wiznikvibe/income_classifier/assets/84284014/4f531788-f2b8-4ea1-b772-5f485df6ee44)
+
+
 ## Problem Statement
 
 The problem can be defined as a binary classification task where we aim to predict whether a person's income is above or below a specified threshold. This type of classification is valuable for various applications, including:
