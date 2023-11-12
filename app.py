@@ -31,10 +31,10 @@ def prediction_data():
 
     result = pred 
     if result == 0:
-        return render_template("result.html", final_result = "Your Yearly Income is Less than Equal to 50k:{}".format(result) )
+        return render_template("result.html", final_result = "Your Yearly Income is Less than Equal to 50k: {}".format(result[0]) )
     else:
-        return render_template("result.html", final_result = "Your Yearly Income is More than Equal to 50k:{}".format(result) )
+        return render_template("result.html", final_result = "Your Yearly Income is More than Equal to 50k: {}".format(result[0]) )
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",port=8000,debug=True)
+    app.run(host="0.0.0.0",port=8000)
