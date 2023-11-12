@@ -14,6 +14,7 @@ class PredictionPipeline:
 
     def predict(self, features):
         preprocessor_path = self.model_resolver.get_latest_transformer_path()
+        print(preprocessor_path)
         model_path = self.model_resolver.get_latest_model_path()
         
         preprocessor = load_object(file_dir=preprocessor_path)

@@ -179,4 +179,3 @@ notebook/catboost_info/time_left.tsv
 notebook/catboost_info/learn_error.tsv
 notebook/catboost_info/catboost_training.json
 catboost_info/
-saved_models
