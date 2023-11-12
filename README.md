@@ -1,5 +1,8 @@
 # Income Classifier Project
 
+## POC Link: 
+    https://ucn3updavk.ap-south-1.awsapprunner.com/
+
 ## Project Overview
 
 This project is designed to build a machine learning model for income classification. The primary goal is to predict whether an individual's income exceeds a certain threshold based on various features like age, education, occupation, etc.
@@ -63,7 +66,7 @@ This project is inspired by the UCI Machine Learning Repository's Adult Income d
 ## Contributors
 
 - Nikhil Shetty
-- [Other Participants]
+
 
 Feel free to contribute, report issues, or provide feedback to enhance the project.
 
